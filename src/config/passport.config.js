@@ -46,7 +46,7 @@ const initializePassport = () =>{
         return done(null,userAux2)
     }
     const userAux = await user.getUser({email})
-    console.log("llega")
+   
     if (!userAux) return done(null,false,{message:"credenciales incorrectas"});
     
     const isValidPassword = await validatePassword(password,userAux.password);
@@ -73,7 +73,9 @@ const initializePassport = () =>{
             
             const {name,login} = profile._json;
             let emailGitHub= `${login}@github.com`
-            const userAux = await user.getUser({emailGitHub});
+            console.log(emailGitHub);
+            const userAux = await user.getUser({email:emailGitHub});
+            console.log(userAux)
             if(!userAux){
                 const newUser = {
                     first_name:name,

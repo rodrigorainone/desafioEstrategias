@@ -18,7 +18,7 @@ router.post('/register',passport.authenticate('register',{failureRedirect:'/api/
 })
 
 router.get('/registerFall',(req,res)=>{
-    res.status(400).send({status:"error",error:req.session.messages})
+    res.status(400).json({status:"error",error:req.session.messages})
 })
     
 router.post('/login',passport.authenticate('login',{failureRedirect:'/api/sessions/loginFail' ,failureMessage:true}),async (req,res)=>{
@@ -45,9 +45,12 @@ router.get('/logout',(req,res)=>{
    
 })
 
-router.get('/loginFail',(req,res)=>{
-    if(req.session.messages.length>4) return res.status(400).send({message:"bloquea los intentos ya ! "})
-    res.status(400).send({status:"error",error:req.session.messages})
+router.get('/loginFail',(req,res)=>{    
+    
+    if(req.session.messages){
+        if(req.session.messages.length>4) return res.status(400).json({message:"bloquea los intentos ya ! "})    }
+    
+        res.status(400).json({status:"error",error:req.session.messages})
 })
 
 router.get('/github',passport.authenticate('github'),(req,res)=>{
